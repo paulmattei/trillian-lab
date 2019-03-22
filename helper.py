@@ -17,3 +17,34 @@ def listTrees(ip_address):
     for tree in response_dict["tree"]:
         trees.append((tree["treeId"]))
     return trees
+
+
+def addLogEntry(ip_address, log_id, leaf_data, metadata="00:00:00"):
+
+    with grpc.insecure_channel(ip_address + ":8090") as channel:
+        stub = trillian_log_api_pb2_grpc.TrillianLogStub(channel)
+        response_protobuf = stub.QueueLeaf(trillian_log_api_pb2.QueueLeafRequest(
+            log_id=log_id, 
+            leaf=trillian_log_api_pb2.LogLeaf(
+                leaf_value = leaf_data.encode(),
+                extra_data = metadata.encode()
+        )))
+
+    response_json = (MessageToJson(response_protobuf))
+    response_dict = json.loads(response_json)
+    return response_dict
+
+
+def getInclusionProofByLeafHash(ip_address, log_id, leaf_hash, tree_size):
+
+    leaf_hash = base64.decodestring(leaf_hash.encode())
+    with grpc.insecure_channel(ip_address + ":8090") as channel:
+        stub = trillian_log_api_pb2_grpc.TrillianLogStub(channel)
+        response_protobuf = stub.GetInclusionProofByHash(trillian_log_api_pb2.GetInclusionProofByHashRequest( 
+            log_id = log_id,
+            leaf_hash = [leaf_hash],
+            tree_size = tree_szie
+        ))
+    response_json = (MessageToJson(response_protobuf))
+    response_dict = json.loads(response_json)
+    return response_dict
