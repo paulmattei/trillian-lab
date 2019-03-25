@@ -36,23 +36,23 @@ gcloud --quiet config set compute/zone ${MASTER_ZONE}
 gcloud --quiet container clusters get-credentials ${CLUSTER_NAME}
 
 # Configure Docker to use gcloud credentials with Google Container Registry
-gcloud auth configure-docker
+#gcloud auth configure-docker
 
 # Get Trillian
-go get github.com/google/trillian/...
-cd $GOPATH/src/github.com/google/trillian
+#go get github.com/google/trillian/...
+#cd $GOPATH/src/github.com/google/trillian
 
-images="log_server log_signer"
-if ${RUN_MAP}; then
-  images+=" map_server"
-fi
-echo "Building and pushing docker images: ${images}"
-for thing in ${images}; do
-  echo "  - ${thing}"
-  docker build --quiet -f examples/deployment/docker/${thing}/Dockerfile -t gcr.io/$PROJECT_ID/${thing}:$IMAGE_TAG .
-  docker push gcr.io/${PROJECT_ID}/${thing}:${IMAGE_TAG}
-  gcloud --quiet container images add-tag gcr.io/${PROJECT_ID}/${thing}:${IMAGE_TAG} gcr.io/${PROJECT_ID}/${thing}:latest
-done
+#images="log_server log_signer"
+#if ${RUN_MAP}; then
+#  images+=" map_server"
+#fi
+#echo "Building and pushing docker images: ${images}"
+#for thing in ${images}; do
+#  echo "  - ${thing}"
+#  docker build --quiet -f examples/deployment/docker/${thing}/Dockerfile -t gcr.io/$PROJECT_ID/${thing}:$IMAGE_TAG .
+#  docker push gcr.io/${PROJECT_ID}/${thing}:${IMAGE_TAG}
+#  gcloud --quiet container images add-tag gcr.io/${PROJECT_ID}/${thing}:${IMAGE_TAG} gcr.io/${PROJECT_ID}/${thing}:latest
+#done
 
 echo "Updating jobs..."
 # Prepare configmap:
