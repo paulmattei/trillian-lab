@@ -3,7 +3,7 @@ import trillian_admin_api_pb2
 import trillian_admin_api_pb2_grpc
 from google.protobuf.json_format import MessageToJson
 import json
-import merkle
+from merkle import merkle
 from collections import namedtuple
 
 def listTrees(ip_address):
@@ -54,11 +54,6 @@ def getInclusionProofByLeafHash(ip_address, log_id, leaf_hash, tree_size):
 
 def verifyInclusionProof(leaf_hash, leaf_index, proof, tree_size, root_hash):
     verifier = merkle.MerkleVerifier()
-
-    # Don't know if this works to create an STH. Was copied from merkle_test.py.
-    # Needs testing and figuring out. Basically all we need is an STH with just
-    # the root_hash and tree_size set, to pass to verify_leaf_hash_inclusion.
     sth = namedtuple("STH", ["sha256_root_hash", "tree_size"])
-    sth = sth(root_hash, tree_size)
 
-    return verifier.verify_leaf_hash_inclusion(leaf_hash, leaf_index, proof, sth)
+    return verifier.verify_leaf_hash_inclusion(leaf_hash, leaf_index, proof, sth(root_hash, tree_size))

@@ -25,7 +25,7 @@ Benchmark sample code:
 import hashlib
 import logging
 
-import error
+from merkle import error
 
 
 def count_bits_set(i):
@@ -65,12 +65,12 @@ class TreeHasher(object):
 
     def hash_leaf(self, data):
         hasher = self.hashfunc()
-        hasher.update("\x00" + data)
+        hasher.update(b"\x00" + data)
         return hasher.digest()
 
     def hash_children(self, left, right):
         hasher = self.hashfunc()
-        hasher.update("\x01" + left + right)
+        hasher.update(b"\x01" + left + right)
         return hasher.digest()
 
     def _hash_full(self, leaves, l_idx, r_idx):
