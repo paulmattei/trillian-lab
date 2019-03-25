@@ -42,10 +42,10 @@ gcloud --quiet container clusters get-credentials ${CLUSTER_NAME}
 #go get github.com/google/trillian/...
 #cd $GOPATH/src/github.com/google/trillian
 
-#images="log_server log_signer"
-#if ${RUN_MAP}; then
-#  images+=" map_server"
-#fi
+images="log_server log_signer"
+if ${RUN_MAP}; then
+  images+=" map_server"
+fi
 #echo "Building and pushing docker images: ${images}"
 #for thing in ${images}; do
 #  echo "  - ${thing}"
