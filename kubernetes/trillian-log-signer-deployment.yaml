@@ -38,7 +38,7 @@ spec:
           - configMapRef:
               name: deploy-config
         # Update this with the name of your project:
-        image: gcr.io/trillian-opensource-ci/log_signer:v1.2.1
+        image: gcr.io/trillian-opensource-ci/log_signer:05731e79b8f0cf085ea21c4dcadf973a0c26fc5d
         imagePullPolicy: Always
         resources:
           limits:

@@ -33,7 +33,7 @@ spec:
         envFrom:
           - configMapRef:
               name: deploy-config
-        image: gcr.io/trillian-opensource-ci/log_server:v1.2.1
+        image: gcr.io/trillian-opensource-ci/log_server:05731e79b8f0cf085ea21c4dcadf973a0c26fc5d
         imagePullPolicy: Always
         resources:
           limits:
