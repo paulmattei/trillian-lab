@@ -9,13 +9,12 @@ import json
 from merkle import merkle
 from collections import namedtuple
 
-ip_address = ""
 
 def listTrees(ip_address):
 
-    with grpc.insecure_channel(ip_address + ":8090") as channel:
+    with grpc.insecure_channel(ip_address) as channel:
         stub = trillian_admin_api_pb2_grpc.TrillianAdminStub(channel)
-        response_protobuf = stub.ListTrees(trillian_admin_api_pb2.ListTreesRequest())
+        response_protobuf = stub.ListTrees(trillian_admin_api_pb2.ListTreesRequest(show_deleted=False))
 
     response_json = (MessageToJson(response_protobuf))
     response_dict = json.loads(response_json)
@@ -28,7 +27,7 @@ def listTrees(ip_address):
 
 def addLogEntry(ip_address, log_id, leaf_data, metadata="00:00:00"):
 
-    with grpc.insecure_channel(ip_address + ":8090") as channel:
+    with grpc.insecure_channel(ip_address) as channel:
         stub = trillian_log_api_pb2_grpc.TrillianLogStub(channel)
         response_protobuf = stub.QueueLeaf(trillian_log_api_pb2.QueueLeafRequest(
             log_id=log_id,
@@ -45,7 +44,7 @@ def addLogEntry(ip_address, log_id, leaf_data, metadata="00:00:00"):
 def getInclusionProofByLeafHash(ip_address, log_id, leaf_hash, tree_size):
 
     leaf_hash = base64.decodestring(leaf_hash.encode())
-    with grpc.insecure_channel(ip_address + ":8090") as channel:
+    with grpc.insecure_channel(ip_address) as channel:
         stub = trillian_log_api_pb2_grpc.TrillianLogStub(channel)
         response_protobuf = stub.GetInclusionProofByHash(trillian_log_api_pb2.GetInclusionProofByHashRequest( 
             log_id=log_id,

@@ -1,11 +1,11 @@
 import helper
 
+# 1) Get the Tree ID
+# ./provision_tree.sh example-config.sh
+tree_id = 1087559795015764672
+
+# 2) Get the IP address
+# kubectl port-forward service/trillian-log-service 35791:8090
 ip_address = '127.0.0.1:35791'
 
-# Step 1 Find IP of Loadbalancer
-
-# Get the ID of the tree
-
-helper.listTrees()
-
-helper.addLeaf()
+helper.addLogEntry(ip_address, tree_id, '12345678901')
