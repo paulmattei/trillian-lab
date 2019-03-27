@@ -6,6 +6,8 @@ import trillian_log_api_pb2_grpc
 import base64
 from google.protobuf.json_format import MessageToJson
 import json
+from merkle import merkle
+from collections import namedtuple
 
 ip_address = ""
 
@@ -53,3 +55,10 @@ def getInclusionProofByLeafHash(ip_address, log_id, leaf_hash, tree_size):
     response_json = (MessageToJson(response_protobuf))
     response_dict = json.loads(response_json)
     return response_dict
+
+
+def verifyInclusionProof(leaf_hash, leaf_index, proof, tree_size, root_hash):
+    verifier = merkle.MerkleVerifier()
+    sth = namedtuple("STH", ["sha256_root_hash", "tree_size"])
+
+    return verifier.verify_leaf_hash_inclusion(leaf_hash, leaf_index, proof, sth(root_hash, tree_size))
