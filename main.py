@@ -1,6 +1,6 @@
 import helper
 
-ip_address = none #change none to ip address for trillian server here}
+ip_address = '127.0.0.1:35791'
 
 # Step 1 Find IP of Loadbalancer
 
