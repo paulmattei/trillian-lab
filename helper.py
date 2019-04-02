@@ -31,16 +31,12 @@ def addLogEntry(ip_address, log_id, leaf_data, metadata=b"00:00:00"):
 
     with grpc.insecure_channel(ip_address) as channel:
         stub = trillian_log_api_pb2_grpc.TrillianLogStub(channel)
-        response_protobuf = stub.QueueLeaf(trillian_log_api_pb2.QueueLeafRequest(
+        return stub.QueueLeaf(trillian_log_api_pb2.QueueLeafRequest(
             log_id=log_id,
             leaf=trillian_log_api_pb2.LogLeaf(
                 leaf_value=leaf_data,
                 extra_data=metadata
         )))
-
-    response_json = (MessageToJson(response_protobuf))
-    response_dict = json.loads(response_json)
-    return response_dict
 
 
 def getLeafHash(leaf_data):

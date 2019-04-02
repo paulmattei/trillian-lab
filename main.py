@@ -13,11 +13,12 @@ tree_id = 1087559795015764672
 ip_address = '127.0.0.1:35791'
 
 
+
 value1 = b'123456789011'
 value2 = b'123456789022'
 
 def setup():
-    res = helper.addLogEntry(ip_address, tree_id, value1)
+    response = helper.addLogEntry(ip_address, tree_id, value1)
     hash1 = res['queuedLeaf']['leaf']['leafIdentityHash']
 
     res = helper.addLogEntry(ip_address, tree_id, value2)
