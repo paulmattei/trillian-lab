@@ -25,7 +25,7 @@ Benchmark sample code:
 import hashlib
 import logging
 
-from merkle import error
+import error
 
 
 def count_bits_set(i):

@@ -1,0 +1,10 @@
+package(default_visibility = ["//visibility:public"])
+
+py_library(
+    name = "merkle",
+    srcs = [
+        "merkle.py",
+        "error.py",
+    ],
+)
+

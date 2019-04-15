@@ -1,0 +1,31 @@
+load("@build_stack_rules_proto//python:python_grpc_library.bzl", "python_grpc_library")
+
+py_binary(
+    name = "main",
+    srcs = [
+        "main.py",
+    ],
+    deps = [
+        ":trillian_admin_python_proto",
+        ":trillian_python_libs",
+    ],
+)
+
+py_library(
+    name = "trillian_python_libs",
+    srcs = [
+        "helper.py",
+    ],
+    deps = [
+        "//merkle",
+    ],
+)
+
+python_grpc_library(
+    name = "trillian_admin_python_proto",
+    deps = [
+        "@trillian//:trillian_admin_api_proto",
+        "@trillian//:trillian_proto",
+    ],
+)
+
